@@ -27,6 +27,38 @@ function Homepage() {
         console.log(error);
       });
   }, []);
+  
+   /* useEffect(() => {
+        fetch('https://www.googleapis.com/books/v1/volumes?q=subject:children&printType=books&maxResults=10&fields=items(id,volumeInfo(imageLinks/thumbnail),volumeInfo(title),volumeInfo(authors))')
+          .then(response => response.json())
+          .then(data => {
+            const bookItems = data.items.map(item => {
+              const book = item.volumeInfo;
+              const id = item.id;
+              const image = book.imageLinks ? book.imageLinks.thumbnail.replace(/^http:\/\//i, 'https://').replace(/zoom=[0-9]/i, 'zoom=2') : '';
+              const title = book.title;
+              const authors = book.authors ? book.authors.join(', ') : 'Unknown';
+              const price = 'Loading...';
+    
+              return { id, image, title, authors, price };
+            });
+    
+            setBooks(bookItems);
+    
+            // For each book, fetch the sale price from a separate API call
+            bookItems.forEach((book, index) => {
+              fetch(`https://www.googleapis.com/books/v1/volumes/${book.id}`)
+                .then(response => response.json())
+                .then(data => {
+                  const saleInfo = data.saleInfo;
+                  const bookPrice = saleInfo ? saleInfo.listPrice.amount : 'N/A';
+                  const updatedBook = { ...book, price: bookPrice };
+                  bookItems[index] = updatedBook;
+                  setBooks([...bookItems]);
+                });
+            });
+          });
+      }, []);*/
 
   return (
     <div>
